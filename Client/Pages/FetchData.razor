@@ -1,0 +1,121 @@
+﻿@page "/fetchdata"
+@using System.Text.RegularExpressions
+@inject NavigationManager Navigationcart
+
+@inject HttpClient Http
+
+<html>
+
+<style>
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even){background-color: #e6ffe6}
+
+th {
+  background-color:  #330000;
+  color: white;
+}
+</style>
+<div class="container">
+  <div class="row">
+    <div class="col-35">
+		<table class="table table-image">
+	<thead>
+		<tr>
+		<th scope="col">Id</th>
+		<th scope="col">Image</th>
+		<th scope="col">Company Name</th>
+		<th scope="col">Left</th>
+		<th scope="col">Price</th>
+    <th scope="col">Number</th>
+    <th scope="col">buttons</th>
+		</tr>
+		</thead>
+    @foreach (var item in Shoes)
+    {
+        @if (item.Left>0)
+        {
+          <tbody>
+	              <tr>
+                  <td>@item.Id</td>
+                  <td><img  src=@item.Address class="img-fluid img-thumbnail"    height="250px" width="250px"/></td>
+                  <td>Company Name : @item.description</td>
+                  <td>Left In Stock : @item.Left</td>
+                  <td>Price : @item.Price $</td>
+                  <td>Number : @item.Number</td>
+                  <td>
+                        <button type="button" class="btn btn-warning" @onclick="()=>AddToCart(item)"> Add to Cart</button>   
+                        <button type="button" class="btn btn-warning" @onclick="()=>Update()">Confrim</button> 
+                  </td>
+		            </tr>
+	</tbody>
+          }
+      }
+	
+		</table>   
+    </div>
+  </div>
+</div>
+    <div class="text-center">
+      <button type="button" class="btn btn-outline-info" @onclick="()=>cart()">Watch Cart</button>
+    </div>
+    
+</html>
+
+<br>
+
+@code{
+
+public void cart()
+{
+  Navigationcart.NavigateTo("/Cart");
+}
+  public  async Task  Update()
+  {
+    HttpClient client=new HttpClient();
+    foreach (var item in Cards.Shoes)
+    {
+      item.Left-=item.Number;
+      await client.PutAsJsonAsync<Cloth>("https://blazordata.herokuapp.com/api/Clothe/UpdateClothInDb",item);
+    }
+    StateHasChanged();
+  }
+  public void AddToCart(Cloth cloth)
+  {
+    if(Cards.Shoes.Contains(cloth))
+    {
+      cloth.Number++;
+      Cards.Price+=cloth.Price;
+    }
+    else{
+      cloth.Number++;
+      Cards.Shoes.Add(cloth);
+      
+      Cards.Price+=cloth.Price;
+    }
+  }
+    List<Cloth> Shoes=new List<Cloth>();
+    
+
+
+    protected async override Task OnInitializedAsync()
+    {
+      HttpClient client=new HttpClient();
+      Shoes=await client.GetFromJsonAsync<List<Cloth>>("https://blazordata.herokuapp.com/api/Clothe/getAllClothesFromDb");
+      StateHasChanged();
+    }
+    
+
+
+
+}
+

@@ -1,0 +1,46 @@
+@page "/Cart"
+
+
+<hea>
+    <style>
+        p{
+            color:	#262626;
+            text-indent: 50px;
+        }
+        hr{
+            color: lightcyan;
+        }
+        .multiple {
+        box-shadow: 
+        0 0 0 2px #e6f2ff,
+        0 0 0 3px #cce6ff,
+        0 0 0 9px #b3d9ff,
+        0 0 0 9px #b3d9ff,
+        0 0 0 9px #b3d9ff,
+        0 0 0 9px #b3d9ff;
+}
+    </style>
+</hea>
+
+@foreach (var item in Cards.Shoes)
+{
+    
+        <td><img  src=@item.Address class="img-fluid img-thumbnail"    height="220px" width="220px"/></td>
+        <p>Company Name : @item.description</p>
+        <p>Left In Stock : @item.Left</p>
+        <p>Price : @item.Price $</p>
+        <p>Number : @item.Number</p>
+        <hr style="width:100%  ;text-align:right;margin-right:0 color=green">
+    
+        
+}
+
+
+
+<div class="box multiple">Sum Of All Shoes: @Cards.Price $</div>
+<br>
+<br>
+
+<a href="/ConfrimInfo"><button class="btn btn-secondary">Confrim And Enter Information</button></a>
+
+

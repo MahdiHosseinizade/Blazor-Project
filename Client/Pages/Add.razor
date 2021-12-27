@@ -1,0 +1,61 @@
+@page "/AddCloth"
+
+        <style>
+        h1{text-align:center;}
+        button.home{ background-color:darkviolet; }
+        button.home{position:inherit}
+        body{
+            background-image: url('Back1.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size:cover;
+        }
+        
+        </style>
+
+<EditForm Model="@shoe" OnValidSubmit="AddCloth">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <p>
+        <label>Name : </label>
+        <InputText @bind-Value= "shoe.Name"></InputText>
+    </p>
+    <p>
+        <label>Address Of Shoes(img) : </label>
+        <InputText @bind-Value= "shoe.Address"></InputText>
+    </p>
+
+
+    <p>
+        <label>Price :   </label>
+        <InputNumber @bind-Value= "shoe.Price"></InputNumber>
+    </p>
+
+    <p>
+        <label>Company of Shoes : </label>
+        <InputText @bind-Value= "shoe.description"></InputText>
+    </p>
+    <p>
+        <label>Left   : </label>
+        <InputNumber @bind-Value= "shoe.Left"></InputNumber>
+    </p>
+
+
+    <button type  ="submit"  class="home">Add Shoes</button>
+    <p>@str</p>
+</EditForm>
+
+
+@code{
+    string str="";
+    Cloth shoe=new Cloth();
+
+    public async Task AddCloth()
+    {
+        HttpClient clients=new HttpClient();
+        await clients.PostAsJsonAsync("https://blazordata.herokuapp.com/api/Clothe/addClothToDb",shoe);
+        str="Add Cloth Successfully";
+        StateHasChanged();
+    }
+    
+}

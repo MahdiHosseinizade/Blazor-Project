@@ -1,0 +1,33 @@
+@page "/Delete"
+
+
+        <style>
+        button.mmd{ background-color:burlywood; }
+        button.mmd{position:inherit}
+        body{
+            background-image: url('Back2.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size:cover;
+
+        }
+        </style>
+
+
+<input type="number" @bind="IdToRemove" />
+<button type="submit"  @onclick="DeleteCloth"> Remove(Id Of Shoes) </button>
+<br>
+
+
+@code{
+
+
+    public int IdToRemove;
+    public async Task DeleteCloth()
+    {
+        HttpClient client=new HttpClient();
+        await client.DeleteAsync($"https://blazordata.herokuapp.com/api/Clothe/DeleteFromDB?&id={IdToRemove}");
+        StateHasChanged();
+    }
+
+}

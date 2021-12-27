@@ -1,0 +1,68 @@
+@page "/ConfrimInfo"
+@inject NavigationManager UriHelper
+
+<head>
+    <style>
+        body{
+            background-image: url("Post.jpg");
+            background-repeat: no-repeat;
+            background-position : center;
+            background-size: 1550px 1000px;
+            background-attachment: fixed;
+            
+        }
+
+        
+    </style>
+</head>
+
+
+<EditForm Model="@x" OnValidSubmit="addnewmmd">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <p>
+        <label>FisrtName : </label>
+        <InputText @bind-Value= "x.FirstName"></InputText>
+    </p>
+    <p>
+        <label>LastName : </label>
+        <InputText @bind-Value= "x.LastName"></InputText>
+    </p>
+
+    <p>
+        <label>Address :   </label>
+        <InputText @bind-Value= "x.Address"></InputText>
+    </p>
+
+    <p>
+        <label>PhoneNumber : </label>
+        <InputText @bind-Value= "x.PhoneNumber"></InputText>
+    </p>
+
+
+    <button type  ="submit"  calss="home">Submit information</button>
+</EditForm>
+<h>
+    @result
+</h>
+
+
+@code
+{ 
+    public string result ="";
+
+
+    public void addnewmmd()
+    {
+        result="succsefully";
+        UriHelper.NavigateTo("/taed");
+
+
+    }
+    public mmd x=new mmd();
+
+
+}
+
+
+
